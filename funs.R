@@ -67,7 +67,11 @@ ConstructRecordThermEng <- function(xml_item, lang_accuracy = FALSE) {
 	}, X = seq(along.with = xml_item$Author$Author$NameList))
 	authors_string <- paste(authors_string_list, collapse = ", ")
 
-	char_for_vol <- ifelse(franc(xml_item$Title) == "rus", "T.", "V.")
+	if (lang_accuracy) {
+		char_for_vol <- ifelse(franc(xml_item$Title) == "rus", "T.", "V.")
+	} else {
+		char_for_vol <- "V."
+	}
 
 	publ_id <- paste(
 		substr(xml_item$Author$Author$NameList[1]$Person$Last, 1, 5),
@@ -83,7 +87,5 @@ ConstructRecordThermEng <- function(xml_item, lang_accuracy = FALSE) {
 		paste_non_null("doi:", xml_item$StandardNumber, ""),
 		"\r\n", "\r\n"
 		)
-	# write.table("test_list.txt", append = TRUE,
-	# 	row.names = FALSE, col.names = FALSE)
 	return(res)
 }
