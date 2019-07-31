@@ -2,12 +2,16 @@ rm(list = ls())
 library(XML)
 library(stringr)
 
-citation_dir <- "./"
-
 source("funs.R")
+source("0_local_config.R")
+
+if (!exists("citation_dir")) {
+	citation_dir <- "./"
+}
 
 # calculations -----------------------------------------------------------------
-bibl_data <- list.files(pattern = ".xml$")
+bibl_data <- list.files(cit_dir_name, pattern = ".xml$", 
+	full.names = TRUE)
 print(bibl_data)
 
 # deliberately taken the first file only
@@ -23,6 +27,6 @@ res_set <- lapply(
 print(res_set)
 
 res_end <- lapply(FUN = rbind, X = res_set)
-write.table(res_end, file = "test_25.txt",
+write.table(res_end, file = file.path(cit_dir_name, "test_25.txt"),
 	row.names = FALSE, col.names = FALSE,
 	quote = FALSE)
